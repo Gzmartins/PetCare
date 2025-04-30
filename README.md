@@ -1,7 +1,7 @@
 
 # 🐾 PetCare - Sistema de Gerenciamento de Pets e Atendimentos
 
-**PetCare** é um sistema de gerenciamento de animais de estimação e seus respectivos atendimentos, desenvolvido em **Python**, com interface gráfica em **Tkinter** e banco de dados **SQLite**. Ele permite cadastrar, editar, excluir e buscar pets, além de registrar e consultar atendimentos realizados.
+**PetCare** é um sistema de gerenciamento de animais de estimação e seus respectivos atendimentos, desenvolvido utilizando o metódo RAD em Python, com interface gráfica em **Tkinter** e banco de dados **SQLite**. Ele permite cadastrar, editar, excluir e buscar pets, além de registrar e consultar atendimentos realizados.
 
 ---
 
@@ -18,48 +18,15 @@
 
 ## 🧪 Tecnologias Utilizadas
 
-- **Python 3.10+**
+- **Python**
 - **Tkinter** (interface gráfica)
 - **SQLite3** (banco de dados local)
-
----
-
-## 📦 Como Executar
-
-1. Clone o repositório:
-
-```bash
-git clone https://github.com/seu-usuario/petcare.git
-cd petcare
-```
-
-2. Execute o script:
-
-```bash
-python petcare.py
-```
-
-> ⚠️ Certifique-se de ter o Python instalado. Não há necessidade de instalar bibliotecas externas.
-
----
-
-## 📁 Estrutura do Projeto
-
-```
-petcare/
-├── petcare.py        # Código-fonte principal do sistema
-├── petcare.db        # Banco de dados SQLite gerado automaticamente
-└── README.md         # Documentação do projeto
-```
-
----
 
 ## 📝 Melhorias Futuras (ideias)
 
 - 🌓 Modo escuro
 - 🐶 Upload de foto dos pets
 - 📊 Relatórios e gráficos de atendimentos
-- 🌐 Versão web com Flask ou Django
 - 📁 Exportar dados em Excel ou PDF
 
 ---
