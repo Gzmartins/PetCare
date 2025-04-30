@@ -117,6 +117,38 @@ def excluir_pet():
     atualizar_tabela_pets()
     atualizar_tabela_atendimentos()
     messagebox.showinfo("Sucesso", "Pet e atendimentos excluídos com sucesso.")
+
+# ==================== FUNÇÕES DE ATUALIZAÇÃO ====================
+def atualizar_lista_pets():
+  global pet_ids
+  combo_pet['values'] = []
+  pet_ids = {}
+  c.execute("SELECT id, nome FROM pets")
+  for pid, nome in c.fetchall():
+    label = f"{nome} (ID {pid})"
+    pet_ids[label] = pid
+  combo_pet['values'] = list(pet_ids.keys())
+
+def atualizar_tabela_pets():
+  for item in tabela_pets.get_children():
+    tabela_pets.delete(item)
+
+  c.execute("SELECT id, nome, dono, idade, especie FROM pets ORDER BY nome")
+  for pet in c.fetchall():
+    tabela_pets.insert('', 'end', values=pet)
+
+def atualizar_tabela_atendimentos():
+  for item in tabela_atendimentos.get_children():
+    tabela_atendimentos.delete(item)
+  c.execute("""SELECT a.id, p.nome, a.data, a.motivo, a.tratamento
+  FROM atendimentos a 
+  JOIN pets p ON a.pet_id = p.id
+  ORDER BY a.data DESC 
+  """)
+
+  for atendimento in c.fetchall():
+    tabela_atendimentos.insert('', 'end', values=atendimento)
+
 # ========== INICIALIZAÇÃO DO TKINTER ==========
 root = tk.Tk()
 root.title("PetCare - Sistema de Gerenciamento de Pets")
