@@ -230,3 +230,27 @@ entry_tratamento.grid(row=3, column=1, padx=5, pady=5)
 
 btn_atendimento = ttk.Button(frame_atendimento, text="Cadastrar Atendimento", command=cadastrar_atendimento)
 btn_atendimento.grid(row=4, column=0, columnspan=2, pady=10)
+
+# ========== ABA DE VISUALIZAÇÃO ==========
+aba_visualizar = ttk.Frame(aba_control)
+aba_control.add(aba_visualizar, text='Visualizar Atendimentos')
+
+frame_tabela_atend = ttk.LabelFrame (aba_visualizar, text="Histórico de Atendimentos", padding=10)
+frame_tabela_atend.pack(fill='both', expand=True, padx=10, pady=10)
+
+colunas = ('ID', 'Pet', 'Data', 'Motivo', 'Tratamento')
+tabela_atendimentos = ttk.Treeview(frame_tabela_atend, columns=colunas, show='headings')
+for col in colunas:
+  tabela_atendimentos.heading(col, text=col)
+  tabela_atendimentos.column(col,minwidth=0, width=100)
+
+tabela_atendimentos.pack(expand=True, fill='both')
+
+frame_botoes_atend = ttk.Frame(aba_visualizar)
+frame_botoes_atend.pack(pady=10)
+
+btn_editar = ttk.Button(frame_botoes_atend, text="Editar Atendimento Selecionado", command=editar_atendimento)
+btn_editar.pack(side='left', padx=5)
+
+btn_excluir = ttk.Button(frame_botoes_atend, text="Excluir Atendimento Selecionado", command=excluir_atendimento)
+btn_excluir.pack(side='left', padx=5)
