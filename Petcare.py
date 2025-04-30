@@ -27,6 +27,96 @@ conn.commit()
 # ========== VARIÁVEIS GLOBAIS ==========
 atendimento_em_edicao = None
 
+# ==================== FUNÇÕES DE PETS ====================
+def cadastrar_pet():
+  nome = entry_nome.get()
+  dono = entry_dono.get()
+  idade = entry_idade.get()
+  especie = entry_especie.get()
+
+  if nome and dono:
+    c.execute("INSERT INTO pets (nome, dono, idade, especie) VALUES (?, ?, ?, ?)", (nome, dono, idade, especie))
+    conn.commit()
+    messagebox.showinfo("Sucesso", "Pet cadastrado com sucesso!")
+    entry_nome.delete(0, tk.END)
+    entry_dono.delete(0, tk.END)
+    entry_idade.delete(0, tk.END)
+    entry_especie.delete(0, tk.END)
+    atualizar_lista_pets()
+    atualizar_tabela_pets()
+    atualizar_tabela_atendimentos()
+  else:
+    messagebox.showwarning("Atenção", "Nome e dono são obrigatórios.")
+
+def editar_pet():
+  selecionado = tabela_pets.selection()
+  if not selecionado:
+    messagebox.showwarning("Atenção", "Selecione um pet para editar.")
+    return
+
+  item = tabela_pets.item(selecionado)
+  pet_id, nome, dono, idade, especie = item['values']
+
+  janela_edit_pet = tk.Toplevel()
+  janela_edit_pet.title("Editar Pet")
+
+  tk.Label(janela_edit_pet, text="Nome:").grid(row=0, column=0, padx=5, pady=5)
+  tk.Label(janela_edit_pet, text="Dono:").grid(row=1, column=0, padx=5, pady=5)
+  tk.Label(janela_edit_pet, text="Idade:").grid(row=2, column=0, padx=5, pady=5)
+  tk.Label(janela_edit_pet, text="Espécie:").grid(row=3, column=0, padx=5, pady=5)]
+
+  entry_nome_edit = tk.Entry(janela_edit_pet)
+  entry_nome_edit.grid(row=0, column=1, padx=5, pady=5)
+  entry_nome_edit.insert(0, nome)
+
+  entry_dono_edit = tk.Entry(janela_edit_pet)
+  entry_dono_edit.grid(row=1, column=1, padx=5, pady=5)
+  entry_dono_edit.insert(0, nome)
+
+  entry_idade_edit = tk.Entry(janela_edit_pet)
+  entry_idade_edit.grid(row=2, column=1, padx=5, pady=5)
+  entry_idade_edit.insert(0, nome)
+
+  entry_especie_edit = tk.Entry(janela_edit_pet)
+  entry_especie_edit.grid(row=3, column=1, padx=5, pady=5)
+  entry_especie_edit.insert(0, nome)]
+
+  def salvar_pet():
+    novo_nome = entry_nome_edit.get()
+    novo_dono = entry_dono_edit.get()
+    nova_idade = entry_idade_edit.get()
+    nova_especie = entry_especie_edit.get()
+
+    if novo_nome and novo_dono:
+      c.execute("UPDATE pets SET nome=?, dono=?, idade=?, especie=? WHERE id=?", (novo_nome, novo_dono, nova_idade, nova_especie, pet_id))
+      conn.commit()
+      atualizar_lista_pets()
+      atualizar_tabela_pets()
+      messagebox.showinfo("Sucesso", "Pet atualizado com seucesso!")
+      janela_edit_pet.destroy()
+    else:
+      messagebox.showwarning("Atenção", "Nome e dono são obrigatórios.")
+
+  btn_salvar = ttk.Button(janela_edit_pet, text="Salvar Alterações", command=salvar_pet)
+  btn_salvar.grid(row=4, column=0, columnspan=2, pady=10)
+
+def excluir_pet():
+  selecionado = tabela_pets.selection()
+  if not selecionado:
+    messagebox.showwarning("Atenção", "Selecione um pet para excluir.")
+    return
+  item = tabela_pets.item(selecionado)
+  pet_id = item['values'] [0]
+
+  confirmar = messagebox.askyesno("Confirmar", "Deseja realmente excluir esse pet? Todos os atendimentos vinculados também serão excluídos.")
+  if confirmar:
+    c.execute("DELETE FROM atendimentos WHERE pet_id=?", (pet_id))
+    c.execute("DELETE FROM pets WHERE id=?", (pet_id))
+    conn.commit()
+    atualizar_lista_pets()
+    atualizar_tabela_pets()
+    atualizar_tabela_atendimentos()
+    messagebox.showinfo("Sucesso", "Pet e atendimentos excluídos com sucesso.")
 # ========== INICIALIZAÇÃO DO TKINTER ==========
 root = tk.Tk()
 root.title("PetCare - Sistema de Gerenciamento de Pets")
