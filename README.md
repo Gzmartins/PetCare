@@ -33,6 +33,6 @@
 
 ## 👨‍💻 Autor
 
-**Guilherme Martins**  
-Estudante de Análise e Desenvolvimento de Sistemas  
-Desenvolvedor Python & Tkinter  
+**Guilherme Martins e Lorena Soares**  
+Estudantes de Análise e Desenvolvimento de Sistemas  
+Desenvolvedores Python & Tkinter  
