@@ -119,6 +119,88 @@ def excluir_pet():
     atualizar_tabela_atendimentos()
     messagebox.showinfo("Sucesso", "Pet e atendimentos excluídos com sucesso.")
 
+# ==================== FUNÇÕES DE ATENDIMENTO ====================
+def cadastrar_atendimento():
+  pet_selecionado = combo_pet.get()
+  data = entry_data.get()
+  motivo = entry_motivo.get()
+  tratamento = entry_tratamento.get()
+
+  if not data:
+    messagebox.showwarning("Atenção", "A data é obrigatória.")
+    return
+
+  if not pet_selecionado:
+    messagebox.showwarning("Atenção", "Selecione o pet.")
+    return
+  pet_id = pet_ids[pet_selecionado]
+  c.execute ("INSERT INTO atendimentos (pet_id, data, motivo, tratamento) VALUES (?, ?, ?, ?)", (pet_id, data, motivo, tratamento))
+  conn.commit()
+  messagebox.showinfo("Sucesso", "Atendimento cadastrado com seucesso!")
+
+  entry_data.delete(0, tk.END)
+  entry_motivo.delete(0, tk.END)
+  entry_tratamento.delete(0, tk.END)  
+  atualizar_tabela_atendimento()
+
+def editar_atendimento():
+  global atendimento_em_edicao
+  selecionado = tabela_atendimentos.selection()
+  if not selecionado:
+    messagebox.showwarning("Atenção", "Selecione um atendimento para editar.")
+    return
+
+  item = tabela_atendimentos.item(selecionado)
+  atendimento_id, _, data, motivo, tratamento = item['values']
+  atendimento_em_edicao = atendimento_id
+
+  janela_edicao = tk.TopLevel()
+  janela_edicao.title("Editar Atendimento")
+
+  tk.Label(janela_edicao, text="Data:").grid(row=0, column=0, padx=5, pady=5)
+  tk.Label(janela_edicao, text="Motivo:").grid(row=1, column=0, padx=5, pady=5)
+  tk.Label(janela_edicao, text="Tratamento:").grid(row=2, column=0, padx=5, pady=5)
+
+  entry_data_edit = tk.Entry(janela_edicao)
+  entry_data_edit.grid(row=0, column=1, padx=5, pady=5)
+  entry_data_edit.insert(0, data)
+
+  entry_motivo_edit = tk.Entry(janela_edicao)
+  entry_motivo_edit.grid(row=1, column=1, padx=5, pady=5)
+  entry_motivo_edit.insert(0, motivo)
+
+  entry_tratamento_edit = tk.Entry(janela_edicao)
+  entry_tratamento_edit.grid(row=2, column=1, padx=5, pady=5)
+  entry_tratamento_edit.insert(0, tratamento)
+
+  btn_salvar = ttk.Button(janela_edicao, text="Salvar Alterações", command=lambda: salvar_edicao(entry_data_edit, entry_motivo_edit, entry_tratamento_edit, janela_edicao))
+  btn_salvar.grid(row=3, column=0, columnspan=2, pady=10)
+
+def salvar_edicao(data, motivo, tratamento, janela):
+  global atendimento_em_edicao
+  c.execute("UPDATE atendimentos SET data=?, motivo=?, tratamento=? WHERE id=?", (data.get(), motivo.get(), tratamento.get(), atendimento_em_edicao))
+  conn.commit()
+  atendimento_em_edicao = None
+  messagebox.showinfo("Sucesso", "Atendimento atualizado com sucesso!")
+  atualizar_tabela_atendimentos()
+  janela.destroy()
+
+def excluir_atendimento():
+  selecionado = tabela_atendimentos.selection()
+  if not seleconado:
+    messagebox.showwarning("Atenção", "Selecione um atendimento para excluir.")
+    return
+    
+  item = tabela_atendimentos.item(selecionado)
+  atendimento_id = item['values'][0]
+
+confirmar = messagebox.askyesno("Confirmar", "Deseja realmente excluir este atendimento?")
+if confirmar:
+  c.execute("DELETE FROM atendimentos WHERE id=?", (atendimento_id,))
+  conn.commit()
+  messagebox.showinfo("Sucesso", "Atendimento excluído")
+  atualizar_tabela_atendimentos()
+
 # ==================== FUNÇÕES DE ATUALIZAÇÃO ====================
 def atualizar_lista_pets():
   global pet_ids
