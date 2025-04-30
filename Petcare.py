@@ -265,6 +265,35 @@ entry_especie.grid(row=3, column=1, padx=5, pady=5)
 btn_cadastrar = ttk.Button(frame_cadastro, text="Cadastrar Pet", command=cadastrar_pet)
 btn_cadastrar.grid(row=4, column=0, columnspan=2, pady=10)
 
+# CAMPO DE BUSCA 
+frame_busca = ttk.LabelFrame(aba_pets, text="Buscar Pet", padding=10)
+frame_busca.pack(fill='x', padx=10, pady 5)
+
+entry_busca = ttk.Entry(frame_busca)
+entry_busca.pack(side='left', fill='x', expand= True, padx=5)
+
+def buscar_pets():
+  global c
+  termo = entry_busca.get().strip()
+  for item in tabela_pets.get_children():
+    tabela_pets.delete(item)
+  if termo:
+    c.execute("SELECT * FROM pets WHERE nome LIKE ? OR dono LIKE ?", (f'%{termo}%', f'%{termo}%'))
+  else:
+    c.execute("SELECT * FROM pets")
+  for row in c.fetchall():
+    tabela_pets.insert('', 'end', values=row)
+
+def limpar_busca():
+  entry_busca.delete(0, tk.END)
+  buscar_pets()
+
+btn_buscar = ttk.Button(frame_busca, text="Buscar", command=buscar_pets)
+btn_buscar.pack(side='left', padx=5)
+
+btn_limpar = ttk.Button(frame_busca, text="Limpar Busca", command=limpar_busca)
+btn_limapar.pack(side='left', padx=5)
+
 # LISTA DE PETS CADASTRADOS 
 frame_tabela_pets = ttk.LabelFrame(aba_pets, text="Pets Cadastrados", padding=10
 frame_tabela_pets.pack(fill='both', expand=True, padx=10, pady=5)
