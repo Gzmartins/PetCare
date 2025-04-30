@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
 import sqlite3
+import datatime import date
 
 # ========== CONEXÃO COM O BANCO DE DADOS ==========
 conn = sqlite3.connect('petcare.db')
@@ -202,3 +203,30 @@ btn_editar_pet.pack(side='left', padx=5)
 
 btn_excluir_pet = ttk.Button(frame_botoes_pets, text="Excluir Pet Selecionado", command=lambda: excluir_pet())
 btn_excluir_pet.pack(side='left', padx=5)
+
+# ========== ABA DE ATENDIMENTOS ==========
+aba_atendimentos = ttk.Frame(aba_control)
+aba_control.add(aba_atendimentos, text='Cadastro de Atendimentos')
+
+frame_atendimento = ttk.LabelFrame(aba_atendimentos, text="Novo Atendimento", padding=10)
+frame_atendimento.pack(fill='x', padx=10, pady=10)
+
+ttk.Label(frame_atendimento, text="Pet:").grid(row=0, column=0, padx=5, pady=5, sticky='w')
+combo_pet = ttk.Combobox(frame_atendimento, state='readonly')
+combo_pet.grid(row=0, column=1, padx=5, pady=5)
+
+ttk.Label(frame_atendimento, text="Data:").grid(row=1, column=0, padx=5, pady=5, sticky='w')
+entry_data = ttk.Entry(frame_atendimento)
+entry_data.insert(0, date_today().strftime("%d/%m/%Y"))
+entry_data.grid(row=1, column=1, padx=5, pady=5)
+
+ttk.Label(frame_atendimento, text="Motivo:").grid(row=2, column=0, padx=5, pady=5, sticky='w')
+entry_motivo = ttk.Entry(frame_atendimento)
+entry_motivo.grid(row=2, column=1, padx=5, pady=5)
+
+ttk.Label(frame_atendimento, text="Tratamento:").grid(row=3, column=0, padx=5, pady=5, sticky='w')
+entry_tratamento = ttk.Entry(frame_atendimento)
+entry_tratamento.grid(row=3, column=1, padx=5, pady=5)
+
+btn_atendimento = ttk.Button(frame_atendimento, text="Cadastrar Atendimento", command=cadastrar_atendimento)
+btn_atendimento.grid(row=4, column=0, columnspan=2, pady=10)
