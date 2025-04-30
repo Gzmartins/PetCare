@@ -365,3 +365,10 @@ btn_editar.pack(side='left', padx=5)
 
 btn_excluir = ttk.Button(frame_botoes_atend, text="Excluir Atendimento Selecionado", command=excluir_atendimento)
 btn_excluir.pack(side='left', padx=5)
+
+# ========== PARTE FINAL DO PROJETO ==========
+atualizar_lista_pets()
+atualizar_tabela_pets()
+atualizar_tabela_atendimentos()
+root.mainloop()
+conn.close()
