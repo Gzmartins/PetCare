@@ -59,3 +59,24 @@ entry_especie.grid(row=3, column=1, padx=5, pady=5)
 
 btn_cadastrar = ttk.Button(frame_cadastro, text="Cadastrar Pet", command=cadastrar_pet)
 btn_cadastrar.grid(row=4, column=0, columnspan=2, pady=10)
+
+# LISTA DE PETS CADASTRADOS 
+frame_tabela_pets = ttk.LabelFrame(aba_pets, text="Pets Cadastrados", padding=10
+frame_tabela_pets.pack(fill='both', expand=True, padx=10, pady=5)
+
+colunas_pets = ('ID', 'Nome', 'Dono', 'Idade', 'Espécie')
+tabela_pets = ttk.Treeview(frame_tabela_pets, columns=colunas_pets, show='headings')
+for col in colunas_pets:
+  tabela_pets.heading(col, text=col)
+  tabela_pets.column(col, minwidth=0, width=100)
+
+tabela_pets.pack(fill='both', expand=True)
+
+frame_botoes_pets= ttk.Frame(aba_pets)
+frame_botoes_pets.pack(pady=10)
+
+btn_editar_pet= ttk.Button(frame_botoes_pets, text="Editar Pet Selecionado", command=lambda: editar_pet())
+btn_editar_pet.pack(side='left', padx=5)
+
+btn_excluir_pet = ttk.Button(frame_botoes_pets, text="Excluir Pet Selecionado", command=lambda: excluir_pet())
+btn_excluir_pet.pack(side='left', padx=5)
